@@ -36,11 +36,12 @@ public class DictSpider {
         try (BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()))) {
             String line;
             while ((line = bufferedReader.readLine()) != null) {
+//                System.out.println(line);
                 if (line.contains("<li><span>")) {
                     partOfSpeech = line.substring(line.indexOf("<span>") + 6, line.indexOf("</span>"));
                     chinese = line.substring(line.indexOf("<strong>") + 8, line.indexOf("</strong>"));
                 }
-                if (line.contains("<span>英")) {
+                if (line.contains("<span>英 <bdo>")) {
                     phonetic = line.substring(line.indexOf("["), line.indexOf("]")+1);
                 }
             }
@@ -72,6 +73,6 @@ public class DictSpider {
         }
         dump();
 
-//        getWord("apple");
+//        getWord("absolute");
     }
 }
