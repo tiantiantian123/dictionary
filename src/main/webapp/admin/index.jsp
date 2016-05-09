@@ -25,8 +25,13 @@
             $('tr th').css('background', '#ddd');
             $('tr:even').css('background', '#ffc');
             $('tr:odd').css('background', '#ccf');
+
             var partOfSpeech = $('select').attr('title');
             $('option[title="' + partOfSpeech + '"]').attr('selected', 'selected');
+
+            $('.del').click(function () {
+                return confirm("DEL?");
+            });
         });
     </script>
 </head>
@@ -83,7 +88,7 @@
             <td>${word.phonetic}</td>
             <td>${word.partOfSpeech}</td>
             <td><a href="/word?action=search&id=${word.id}">EDIT</a></td>
-            <td><a href="/word?action=remove&id=${word.id}">REMOVE</a></td>
+            <td><a class="del" href="/word?action=remove&id=${word.id}">REMOVE</a></td>
         </tr>
     </c:forEach>
 </table>

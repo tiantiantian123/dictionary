@@ -38,6 +38,62 @@ public class WordAction extends HttpServlet {
         if (action.equals("update")) {
             update(req, resp);
         }
+        if (action.equals("remove")) {
+            remove(req, resp);
+        }
+        if (action.equals("query")) {
+            query(req, resp);
+        }
+    }
+
+    private void query(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String key = req.getParameter("key");
+
+        Connection connection = DB.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        String sql = "SELECT * FROM db_dictionary.word WHERE english LIKE ? OR chinese LIKE ?";
+
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, "%"+key+"%");
+            preparedStatement.setString(2, "%"+key+"%");
+
+            resultSet = preparedStatement.executeQuery();
+            List<Word> words = new ArrayList<>();
+            while (resultSet.next()) {
+                Word word = new Word(resultSet.getInt("id"), resultSet.getString("english"), resultSet.getString("chinese"), resultSet.getString("phonetic"), resultSet.getString("part_of_speech"));
+                words.add(word);
+            }
+            req.getSession().setAttribute("words", words);
+            resp.sendRedirect("/index.jsp");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB.close(resultSet, preparedStatement, connection);
+        }
+    }
+
+    private void remove(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+
+        Connection connection = DB.getConnection();
+        PreparedStatement preparedStatement = null;
+
+        String sql = "DELETE FROM db_dictionary.word WHERE id = ?";
+
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+
+            resp.sendRedirect("/word?action=queryAll");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB.close(null, preparedStatement, connection);
+        }
     }
 
     private void update(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

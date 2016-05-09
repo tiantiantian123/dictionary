@@ -6,11 +6,44 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>dictionary</title>
+    <script src="../js/jquery-1.12.3.min.js"></script>
+    <script>
+        $(function () {
+            $('tr th').css('background', '#ddd');
+            $('tr:even').css('background', '#ffc');
+            $('tr:odd').css('background', '#ccf');
+        });
+    </script>
 </head>
 <body>
 <h1>dictionary</h1>
+<form action="/word" method="post">
+    <input type="hidden" name="action" value="query">
+    <input name="key">
+    <input type="submit" value="QUERY">
+</form>
+<hr>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>ENGLISH</th>
+        <th>CHINESE</th>
+        <th>PHONETIC</th>
+        <th>PART OF SPEECH</th>
+    </tr>
+    <c:forEach var="word" items="${sessionScope.words}" varStatus="vs">
+        <tr>
+            <td>${vs.count}</td>
+            <td>${word.english}</td>
+            <td>${word.chinese}</td>
+            <td>${word.phonetic}</td>
+            <td>${word.partOfSpeech}</td>
+        </tr>
+    </c:forEach>
+</table>
 </body>
 </html>
