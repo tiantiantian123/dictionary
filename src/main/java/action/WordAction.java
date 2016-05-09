@@ -1,5 +1,6 @@
 package action;
 
+import model.Word;
 import util.DB;
 
 import javax.servlet.ServletException;
@@ -10,7 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by non-perfectionist
@@ -24,6 +28,9 @@ public class WordAction extends HttpServlet {
         String action = req.getParameter("action");
         if (action.equals("add")) {
             add(req, resp);
+        }
+        if (action.equals("queryAll")) {
+            queryAll(req, resp);
         }
     }
 
@@ -46,7 +53,7 @@ public class WordAction extends HttpServlet {
             preparedStatement.setString(4, partOfSpeech);
             preparedStatement.executeUpdate();
 
-            resp.sendRedirect("/admin/index.jsp");
+            resp.sendRedirect("/word?action=queryAll");
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -55,7 +62,27 @@ public class WordAction extends HttpServlet {
     }
 
     protected void queryAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Connection connection = DB.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
+        String sql = "SELECT * FROM db_dictionary.word";
+
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            resultSet = preparedStatement.executeQuery();
+            List<Word> words = new ArrayList<>();
+            while (resultSet.next()) {
+                Word word = new Word(resultSet.getInt("id"), resultSet.getString("english"), resultSet.getString("chinese"), resultSet.getString("phonetic"), resultSet.getString("part_of_speech"));
+                words.add(word);
+            }
+            req.getSession().setAttribute("words", words);
+            resp.sendRedirect("/admin/index.jsp");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB.close(resultSet, preparedStatement, connection);
+        }
     }
 
     @Override

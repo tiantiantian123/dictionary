@@ -50,7 +50,7 @@ public class AdminAction extends HttpServlet {
 
             if (resultSet.next()) {
                 req.getSession().setAttribute("username", username);
-                resp.sendRedirect("/word/queryAll");
+                resp.sendRedirect("/word?action=queryAll");
             } else {
                 req.setAttribute("message", "invalid username or password");
                 req.getRequestDispatcher("/admin/index.jsp").forward(req, resp);
