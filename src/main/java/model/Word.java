@@ -61,4 +61,15 @@ public class Word {
     public void setPartOfSpeech(String partOfSpeech) {
         this.partOfSpeech = partOfSpeech;
     }
+
+    @Override
+    public String toString() {
+        return "Word{" +
+                "id=" + id +
+                ", english='" + english + '\'' +
+                ", chinese='" + chinese + '\'' +
+                ", phonetic='" + phonetic + '\'' +
+                ", partOfSpeech='" + partOfSpeech + '\'' +
+                '}';
+    }
 }
