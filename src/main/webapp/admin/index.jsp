@@ -14,6 +14,7 @@
         span.error {
             color: #900;
         }
+
         span.message {
             color: #0f0;
         }
@@ -24,6 +25,8 @@
             $('tr th').css('background', '#ddd');
             $('tr:even').css('background', '#ffc');
             $('tr:odd').css('background', '#ccf');
+            var partOfSpeech = $('select').attr('title');
+            $('option[title="' + partOfSpeech + '"]').attr('selected', 'selected');
         });
     </script>
 </head>
@@ -39,17 +42,28 @@
 <span class="message">${sessionScope.username}</span>
 <hr>
 <form action="/word" method="post">
-    <input type="hidden" name="action" value="add">
-    <input type="text" name="english" placeholder="english"><br>
-    <input type="text" name="chinese" placeholder="chinese"><br>
-    <input type="text" name="phonetic" placeholder="phonetic"><br>
-    <select name="part_of_speech">
-        <option value="名词">名词</option>
-        <option value="动词">动词</option>
-        <option value="形容词">形容词</option>
-        <option value="副词">副词</option>
+    <c:if test="${requestScope.word.id eq null}">
+        <input type="hidden" name="action" value="add">
+    </c:if>
+    <c:if test="${requestScope.word.id ne null}">
+        <input type="hidden" name="action" value="update">
+    </c:if>
+    <input type="hidden" name="id" value="${requestScope.word.id}">
+    <input type="text" name="english" placeholder="english" value="${requestScope.word.english}"><br>
+    <input type="text" name="chinese" placeholder="chinese" value="${requestScope.word.chinese}"><br>
+    <input type="text" name="phonetic" placeholder="phonetic" value="${requestScope.word.phonetic}"><br>
+    <select name="part_of_speech" title="${requestScope.word.partOfSpeech}">
+        <option value="名词" title="名词">名词</option>
+        <option value="动词" title="动词">动词</option>
+        <option value="形容词" title="形容词">形容词</option>
+        <option value="副词" title="副词">副词</option>
     </select><br>
-    <input type="submit" value="ADD">
+    <c:if test="${requestScope.word.id eq null}">
+        <input type="submit" value="ADD">
+    </c:if>
+    <c:if test="${requestScope.word.id ne null}">
+        <input type="submit" value="UPDATE">
+    </c:if>
 </form>
 <hr>
 <table>
@@ -68,8 +82,8 @@
             <td>${word.chinese}</td>
             <td>${word.phonetic}</td>
             <td>${word.partOfSpeech}</td>
-            <td><a href="">EDIT</a></td>
-            <td><a href="">REMOVE</a></td>
+            <td><a href="/word?action=search&id=${word.id}">EDIT</a></td>
+            <td><a href="/word?action=remove&id=${word.id}">REMOVE</a></td>
         </tr>
     </c:forEach>
 </table>
