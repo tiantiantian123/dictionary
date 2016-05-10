@@ -67,6 +67,7 @@ public class DictSpider {
         try {
             inputStream = url.openStream();
         } catch (ConnectException e) {
+            System.out.println("\t timeout...");
             getWord(english);
             return null;
         } catch (IOException e) {
@@ -107,17 +108,19 @@ public class DictSpider {
     }
 
     public static void main(String[] args) {
-//        englishList = new ArrayList<>();
-//        getEnglishList();
-//        words = new ArrayList<>();
-//        for (String english : englishList) {
-//            Word word = getWord(english);
-//            if (word != null) {
-//                words.add(getWord(english));
-//            }
-//        }
-//        dump();
+        englishList = new ArrayList<>();
+        getEnglishList();
+        words = new ArrayList<>();
+        for (String english : englishList) {
+            Word word = getWord(english);
+            if (word != null) {
+                words.add(word);
+            }
+        }
+        WordUtil.write(words);
+//        words = WordUtil.read(words.size());
+        dump();
 
-        getWord("export");
+//        getWord("export");
     }
 }

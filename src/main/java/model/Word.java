@@ -1,10 +1,12 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Created by Administrator
  * 下午1:02 16-5-9
  */
-public class Word {
+public class Word implements Serializable { // 序列化 标志接口
     private Integer id;
     private String english;
     private String chinese;

@@ -30,3 +30,5 @@ FROM db_dictionary.admin;
 
 SELECT *
 FROM db_dictionary.word;
+
+TRUNCATE TABLE db_dictionary.word;
