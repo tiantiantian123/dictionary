@@ -10,12 +10,19 @@
 <html>
 <head>
     <title>dictionary</title>
-    <script src="../js/jquery-1.12.3.min.js"></script>
+    <script src="js/jquery-1.12.3.min.js"></script>
     <script>
         $(function () {
             $('tr th').css('background', '#ddd');
             $('tr:even').css('background', '#ffc');
             $('tr:odd').css('background', '#ccf');
+
+            $('button').click(function () {
+                $.ajax({
+                    url: '/admin',
+                    type: 'POST'
+                });
+            });
         });
     </script>
 </head>
@@ -45,5 +52,6 @@
         </tr>
     </c:forEach>
 </table>
+<button>click</button>
 </body>
 </html>

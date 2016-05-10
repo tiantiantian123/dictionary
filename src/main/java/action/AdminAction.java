@@ -22,6 +22,7 @@ public class AdminAction extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("AdminAction doPost()...");
         String action = req.getParameter("action");
         if (action == null) {
             resp.sendRedirect("/admin/index.jsp");
@@ -64,6 +65,7 @@ public class AdminAction extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("AdminAction doGet() method...");
         doPost(req, resp);
     }
 }
