@@ -18,7 +18,14 @@
             $('tr:odd').css('background', '#ccf');
 
             $('#key').keyup(function () {
-                $('h1').text($(this).val());
+                var key = $(this).val();
+                $.ajax({
+                    url: '/word',
+                    type: 'POST',
+                    data: {'action':'autoComplete', 'key':key},
+                    success: function (result) {
+                    }
+                });
             });
         });
     </script>
@@ -49,6 +56,5 @@
         </tr>
     </c:forEach>
 </table>
-<button>click</button>
 </body>
 </html>

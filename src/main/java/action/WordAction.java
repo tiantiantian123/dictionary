@@ -44,6 +44,40 @@ public class WordAction extends HttpServlet {
         if (action.equals("query")) {
             query(req, resp);
         }
+        if (action.equals("autoComplete")) {
+            autoComplete(req, resp);
+        }
+    }
+
+    private void autoComplete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String key = req.getParameter("key");
+
+        Connection connection = DB.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        String sql = "SELECT * FROM db_dictionary.word WHERE english like ?";
+
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, key.concat("%"));
+            resultSet = preparedStatement.executeQuery();
+
+            List<Word> words = new ArrayList<>();
+            while (resultSet.next()) {
+                Word word = new Word(resultSet.getInt("id"), resultSet.getString("english"), resultSet.getString("chinese"), resultSet.getString("phonetic"), resultSet.getString("part_of_speech"));
+                words.add(word);
+            }
+
+            for (Word word : words) {
+                System.out.println(word.getEnglish());
+            }
+            System.out.println("===============================");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB.close(resultSet, preparedStatement, connection);
+        }
     }
 
     private void query(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

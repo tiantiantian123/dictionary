@@ -32,3 +32,7 @@ SELECT *
 FROM db_dictionary.word;
 
 TRUNCATE TABLE db_dictionary.word;
+
+SELECT *
+FROM db_dictionary.word
+WHERE english like 'ap%';
