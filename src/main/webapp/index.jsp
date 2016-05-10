@@ -42,17 +42,17 @@
     <tr>
         <th>ID</th>
         <th>ENGLISH</th>
-        <th>CHINESE</th>
         <th>PHONETIC</th>
         <th>PART OF SPEECH</th>
+        <th>CHINESE</th>
     </tr>
     <c:forEach var="word" items="${sessionScope.words}" varStatus="vs">
         <tr>
             <td>${vs.count}</td>
             <td>${word.english}</td>
-            <td>${word.chinese}</td>
             <td>${word.phonetic}</td>
             <td>${word.partOfSpeech}</td>
+            <td>${word.chinese}</td>
         </tr>
     </c:forEach>
 </table>
