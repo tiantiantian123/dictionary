@@ -22,21 +22,40 @@ public class AdminAction extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("AdminAction doPost()...");
-        String value = req.getParameter("key");
-        System.out.println(value);
         String action = req.getParameter("action");
+        if (action == null) {
+            resp.sendRedirect("/admin/index.jsp");
+            return;
+        }
+        if (action.equals("login")) {
+            login(req, resp);
+        }
+        if (action.equals("isUsernameExist")) {
+            isUserNameExist(req, resp);
+        }
+    }
 
-        resp.setContentType("text/html");
-        resp.getWriter().write("data");
+    private void isUserNameExist(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String username = req.getParameter("username");
 
-//        if (action == null) {
-//            resp.sendRedirect("/admin/index.jsp");
-//            return;
-//        }
-//        if (action.equals("login")) {
-//            login(req, resp);
-//        }
+        Connection connection = DB.getConnection();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        String sql = "SELECT * FROM db_dictionary.admin WHERE username = ?";
+
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, username);
+            resultSet = preparedStatement.executeQuery();
+
+            resp.setContentType("text/html");
+            resp.getWriter().write(String.valueOf(resultSet.next()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DB.close(resultSet, preparedStatement, connection);
+        }
     }
 
     private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -71,7 +90,6 @@ public class AdminAction extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("AdminAction doGet() method...");
         doPost(req, resp);
     }
 }

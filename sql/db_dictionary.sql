@@ -26,4 +26,7 @@ USE db_dictionary;
 INSERT INTO db_dictionary.admin VALUES (NULL, 'admin', '123');
 
 SELECT *
+FROM db_dictionary.admin;
+
+SELECT *
 FROM db_dictionary.word;

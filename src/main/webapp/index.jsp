@@ -17,15 +17,8 @@
             $('tr:even').css('background', '#ffc');
             $('tr:odd').css('background', '#ccf');
 
-            $('button').click(function () {
-                $.ajax({
-                    url: '/admin',
-                    type: 'POST',
-                    data: {'key':'value'},
-                    success: function (result) {
-                        alert(result);
-                    }
-                });
+            $('#key').keyup(function () {
+                $('h1').text($(this).val());
             });
         });
     </script>
@@ -34,7 +27,7 @@
 <h1>dictionary</h1>
 <form action="/word" method="post">
     <input type="hidden" name="action" value="query">
-    <input name="key">
+    <input id="key" name="key">
     <input type="submit" value="QUERY">
 </form>
 <hr>

@@ -32,6 +32,31 @@
             $('.del').click(function () {
                 return confirm("DEL?");
             });
+
+            $('#username').blur(function () {
+                var username = $(this).val();
+                $.ajax({
+                    url: '/admin',
+                    type: 'POST',
+                    data: {'action':'isUsernameExist', 'username':username},
+                    success: function (result) {
+                        if (result == 'true') {
+                            $('#hint').text('username is exist.');
+                        } else {
+                            $('#hint').text('username is not exist.');
+                        }
+                    },
+                    error: function (a, b, c) {
+                        alert(a + ', ' + b + ', ' + c);
+                    },
+                    beforeSend: function () {
+                        alert('before...');
+                    },
+                    complete: function () {
+                        alert('completed...')
+                    }
+                });
+            });
         });
     </script>
 </head>
@@ -39,8 +64,8 @@
 <h1>admin</h1>
 <form action="/admin" method="post">
     <input type="hidden" name="action" value="login">
-    <input type="text" name="username" placeholder="USERNAME" value="admin"><br>
-    <input type="password" name="password" placeholder="PASSWORD" value="123"><br>
+    <input id="username" type="text" name="username" placeholder="USERNAME"><span id="hint"></span><br>
+    <input type="password" name="password" placeholder="PASSWORD"><br>
     <input type="submit" value="LOGIN">
 </form>
 <span class="error">${requestScope.message}</span>
