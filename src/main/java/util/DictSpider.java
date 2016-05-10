@@ -81,7 +81,7 @@ public class DictSpider {
 //                System.out.println(line);
                 if (line.contains("<li><span>")) {
                     partOfSpeech = line.substring(line.indexOf("<span>") + 6, line.indexOf("</span>"));
-                    chinese = line.substring(line.indexOf("<strong>") + 8, line.indexOf("</strong>"));
+                    chinese = line.substring(line.indexOf("<strong>") + 8, line.contains("</strong>")?line.indexOf("</strong>"):line.length());
                 }
                 if (line.contains("<span>英 <bdo>")) {
                     phonetic = line.substring(line.indexOf("["), line.indexOf("]") + 1);
