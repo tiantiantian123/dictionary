@@ -23,14 +23,20 @@ public class AdminAction extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("AdminAction doPost()...");
+        String value = req.getParameter("key");
+        System.out.println(value);
         String action = req.getParameter("action");
-        if (action == null) {
-            resp.sendRedirect("/admin/index.jsp");
-            return;
-        }
-        if (action.equals("login")) {
-            login(req, resp);
-        }
+
+        resp.setContentType("text/html");
+        resp.getWriter().write("data");
+
+//        if (action == null) {
+//            resp.sendRedirect("/admin/index.jsp");
+//            return;
+//        }
+//        if (action.equals("login")) {
+//            login(req, resp);
+//        }
     }
 
     private void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

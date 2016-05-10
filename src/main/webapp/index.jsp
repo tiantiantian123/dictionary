@@ -20,7 +20,11 @@
             $('button').click(function () {
                 $.ajax({
                     url: '/admin',
-                    type: 'POST'
+                    type: 'POST',
+                    data: {'key':'value'},
+                    success: function (result) {
+                        alert(result);
+                    }
                 });
             });
         });
