@@ -26,7 +26,7 @@
                     dataType: 'json',
                     success: function (words) {
                         $.each(words, function (index, word) {
-                            alert(word.english + ':' + word.partOfSpeech);
+                            alert(word.english + ':' + word.partOfSpeech + ':' + word.chinese);
                         });
                     }
                 });
