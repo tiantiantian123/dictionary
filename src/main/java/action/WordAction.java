@@ -95,11 +95,11 @@ public class WordAction extends HttpServlet {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        String sql = "SELECT * FROM db_dictionary.word WHERE english LIKE ? OR chinese LIKE ?";
+        String sql = "SELECT * FROM db_dictionary.word WHERE english = ? OR chinese LIKE ?";
 
         try {
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, "%"+key+"%");
+            preparedStatement.setString(1, key);
             preparedStatement.setString(2, "%"+key+"%");
 
             resultSet = preparedStatement.executeQuery();

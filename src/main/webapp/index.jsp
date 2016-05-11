@@ -23,20 +23,27 @@
                 limit: 10,
                 appendMethod: 'replace',
                 dropdownWidth: 'auto',
-                source:[
+                showHint: false,
+                source: [
                     function (key, add) {
                         $.ajax({
                             url: '/word',
                             type: 'POST',
-                            data: {'action':'autoComplete', 'key':key},
+                            data: {'action': 'autoComplete', 'key': key},
                             dataType: 'json',
                             success: function (words) {
-                                console.log(words);
                                 add(words);
                             }
                         });
                     }
                 ]
+            });
+
+            $('#key').keyup(function () {
+                if (/\s/.test($(this).val())) {
+                    console.log($(this).val().split('\t')[0]);
+                    $(this).val($(this).val().split('\t')[0]);
+                }
             });
         });
     </script>
