@@ -17,4 +17,5 @@ dependencies {
     compile 'javax:javaee-api:7.0'
     compile 'mysql:mysql-connector-java:5.1.38'
     compile 'jstl:jstl:1.2'
+    compile 'org.json:json:20151123'
 }
