@@ -39,6 +39,9 @@ public class AdminAction extends HttpServlet {
         String username = req.getParameter("username");
 
         Connection connection = DB.getConnection();
+        if (connection == null) {
+            return;
+        }
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
@@ -63,6 +66,9 @@ public class AdminAction extends HttpServlet {
         String password = req.getParameter("password");
 
         Connection connection = DB.getConnection();
+        if (connection == null) {
+            return;
+        }
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
