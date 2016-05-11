@@ -1,3 +1,4 @@
+
 package action;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -65,14 +66,15 @@ public class WordAction extends HttpServlet {
             resultSet = preparedStatement.executeQuery();
 
             List<Word> words = new ArrayList<>();
+            List<String> strings = new ArrayList<>();
             while (resultSet.next()) {
                 Word word = new Word(resultSet.getInt("id"), resultSet.getString("english"), resultSet.getString("chinese"), resultSet.getString("phonetic"), resultSet.getString("part_of_speech"));
-                words.add(word);
+                strings.add(word.getEnglish() + "\t" + word.getPartOfSpeech() + word.getChinese());
             }
 
             ObjectMapper objectMapper = new ObjectMapper();
-            String jsonArray = objectMapper.writeValueAsString(words);
-
+            String jsonArray = objectMapper.writeValueAsString(strings);
+            System.out.println(jsonArray);
             resp.setContentType("text/html");
             resp.getWriter().write(jsonArray);
         } catch (SQLException e) {

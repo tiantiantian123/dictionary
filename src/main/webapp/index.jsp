@@ -10,26 +10,33 @@
 <html>
 <head>
     <title>dictionary</title>
+    <link rel="stylesheet" href="css/jquery.autocomplete.css">
     <script src="js/jquery-1.12.3.min.js"></script>
+    <script src="js/jquery.autocomplete.js"></script>
     <script>
         $(function () {
             $('tr th').css('background', '#ddd');
             $('tr:even').css('background', '#ffc');
             $('tr:odd').css('background', '#ccf');
 
-            $('#key').keyup(function () {
-                var key = $(this).val();
-                $.ajax({
-                    url: '/word',
-                    type: 'POST',
-                    data: {'action':'autoComplete', 'key':key},
-                    dataType: 'json',
-                    success: function (words) {
-                        $.each(words, function (index, word) {
-                            alert(word.english + ':' + word.partOfSpeech + ':' + word.chinese);
+            $('#key').autocomplete({
+                limit: 10,
+                appendMethod: 'replace',
+                dropdownWidth: 'auto',
+                source:[
+                    function (key, add) {
+                        $.ajax({
+                            url: '/word',
+                            type: 'POST',
+                            data: {'action':'autoComplete', 'key':key},
+                            dataType: 'json',
+                            success: function (words) {
+                                console.log(words);
+                                add(words);
+                            }
                         });
                     }
-                });
+                ]
             });
         });
     </script>
