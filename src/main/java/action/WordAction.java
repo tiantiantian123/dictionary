@@ -55,6 +55,9 @@ public class WordAction extends HttpServlet {
         String key = req.getParameter("key");
 
         Connection connection = DB.getConnection();
+        if (connection == null) {
+            return;
+        }
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
@@ -86,6 +89,9 @@ public class WordAction extends HttpServlet {
         String key = req.getParameter("key");
 
         Connection connection = DB.getConnection();
+        if (connection == null) {
+            return;
+        }
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
@@ -115,6 +121,9 @@ public class WordAction extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));
 
         Connection connection = DB.getConnection();
+        if (connection == null) {
+            return;
+        }
         PreparedStatement preparedStatement = null;
 
         String sql = "DELETE FROM db_dictionary.word WHERE id = ?";
@@ -140,6 +149,9 @@ public class WordAction extends HttpServlet {
         String partOfSpeech = req.getParameter("part_of_speech").trim();
 
         Connection connection = DB.getConnection();
+        if (connection == null) {
+            return;
+        }
         PreparedStatement preparedStatement = null;
 
         String sql = "UPDATE db_dictionary.word SET english = ?, chinese = ?, phonetic = ?, part_of_speech = ? WHERE id = ?";
@@ -165,6 +177,9 @@ public class WordAction extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));
 
         Connection connection = DB.getConnection();
+        if (connection == null) {
+            return;
+        }
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
@@ -192,6 +207,9 @@ public class WordAction extends HttpServlet {
         String partOfSpeech = req.getParameter("part_of_speech").trim();
 
         Connection connection = DB.getConnection();
+        if (connection == null) {
+            return;
+        }
         PreparedStatement preparedStatement = null;
 
         String sql = "INSERT INTO db_dictionary.word VALUES (NULL,?,?,?,?)";
@@ -214,6 +232,9 @@ public class WordAction extends HttpServlet {
 
     protected void queryAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Connection connection = DB.getConnection();
+        if (connection == null) {
+            return;
+        }
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
