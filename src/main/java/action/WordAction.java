@@ -1,5 +1,6 @@
 package action;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import model.Word;
 import util.DB;
 
@@ -56,7 +57,7 @@ public class WordAction extends HttpServlet {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        String sql = "SELECT * FROM db_dictionary.word WHERE english like ?";
+        String sql = "SELECT * FROM db_dictionary.word WHERE english like ? LIMIT 0, 10";
 
         try {
             preparedStatement = connection.prepareStatement(sql);
@@ -69,10 +70,11 @@ public class WordAction extends HttpServlet {
                 words.add(word);
             }
 
-            for (Word word : words) {
-                System.out.println(word.getEnglish());
-            }
-            System.out.println("===============================");
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonArray = objectMapper.writeValueAsString(words);
+
+            resp.setContentType("text/html");
+            resp.getWriter().write(jsonArray);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {

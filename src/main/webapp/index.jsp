@@ -23,7 +23,11 @@
                     url: '/word',
                     type: 'POST',
                     data: {'action':'autoComplete', 'key':key},
-                    success: function (result) {
+                    dataType: 'json',
+                    success: function (words) {
+                        $.each(words, function (index, word) {
+                            alert(word.english + ':' + word.partOfSpeech);
+                        });
                     }
                 });
             });
